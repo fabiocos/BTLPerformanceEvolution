@@ -384,6 +384,8 @@ int main(int argc, char** argv)
   
   float tResAvg = 0.;
   int nTResAvg = 0;
+  float tResWAvg = 0.;
+  double deltaLumi = 0.;
   for(int point = 0; point < g_fluence_vs_time.GetN(); ++point)
   {
     double time, fluence, alpha, instLumi, intLumi;
@@ -393,7 +395,7 @@ int main(int argc, char** argv)
     g_alphaNorm_vs_time.GetPoint(point,time,alpha);
 
     std::cout << "time: " << std::fixed << std::setprecision(3) << std::setw(5) << time
-              << " y   fluence: " << std::fixed << std::scientific << std::setprecision(3) << std::setw(5) << fluence << "\r" << std::flush;
+              << " y   fluence: " << std::fixed << std::scientific << std::setprecision(3) << std::setw(5) << fluence << "\n" << std::flush;
     if( instLumi == 0. ) continue;
     
     
@@ -511,6 +513,8 @@ int main(int argc, char** argv)
       }
     }
 
+    deltaLumi = intLumi - deltaLumi;
+    std::cout << "\n Vov: " << VovBest << "   nPEBest: " << nPEBest << "   gainBest: " << gainBest << "   DCRBest: " << DCRBest << "   PDEBest: " << PDEBest << "   tResBest: " << tResBest << "   intL: " << intLumi << " deltaLumi: " << deltaLumi << "\n" << std::endl;
     //std::cout << "Vov: " << VovBest << "   nPEBest: " << nPEBest << "   gainBest: " << gainBest << "   DCRBest: " << DCRBest << "   tResBest: " << tResBest << std::endl;
     g_tResBest_vs_time.SetPoint(g_tResBest_vs_time.GetN(),time,tResBest);
     g_tResBest_stoch_vs_time.SetPoint(g_tResBest_stoch_vs_time.GetN(),time,tResBest_stoch);
@@ -552,11 +556,15 @@ int main(int argc, char** argv)
     
     tResAvg += tResBest;
     ++nTResAvg;
+
+    tResWAvg += deltaLumi*tResBest;
+    deltaLumi = intLumi;
   }
   
   tResAvg /= nTResAvg;
-  
-  
+
+  tResWAvg /= 3000.;
+  std::cout << "\n\nLuminosity weighted averaged tRes = " << tResWAvg << "\n\n" << std::endl;
 
 
   //------------
