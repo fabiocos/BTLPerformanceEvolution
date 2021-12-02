@@ -42,10 +42,10 @@ ROOTGLIBS     = $(shell root-config --glibs) -lGenVector -lFoam -lMinuit -lTMVA 
 
 
 CXX  =  g++
-CXXFLAGS  = -Wall -O2 -fPIC -I$(DIR) $(ROOTCFLAGS) 
+CXXFLAGS  = -O2 -fPIC -I$(DIR) $(ROOTCFLAGS) 
 
 CPP  =  g++
-CPPFLAGS  = -Wall -I$(DIR) $(ROOTCFLAGS)
+CPPFLAGS  = -I$(DIR) $(ROOTCFLAGS)
 
 LD       =  g++
 LDFLAGS  =  -rdynamic -shared -O2
@@ -61,9 +61,9 @@ GLIBS   =  -lm -ldl -rdynamic -L./CfgManager/lib -lCfgManager $(ROOTGLIBS)
 ifeq ($(ARCH),macosx64)
 LIBSuf  =  .dylib
 
-CPPFLAGS  =  -Wall -W -O2 -pipe -I$(DIR) $(ROOTCFLAGS)
+CPPFLAGS  =  -O2 -pipe -I$(DIR) $(ROOTCFLAGS)
 
-CXXFLAGS  =  -Wall -W -O2 -pipe -I$(DIR) $(ROOTCFLAGS)
+CXXFLAGS  =  -O2 -pipe -I$(DIR) $(ROOTCFLAGS)
 
 LDFLAGS  =  -dynamiclib -shared -single_module -undefined dynamic_lookup
 SONAME	 =  libAnnealingModel.dylib
@@ -118,5 +118,4 @@ cfgMan:
 clean:
 	@echo "cleaning..."
 	rm -f $(OBJ)*$(OBJSuf) $(LIB)*$(LIBSuf) $(LIB)mydict* $(BIN)*$(BINSuf)
-	cd DynamicTTree && $(MAKE) clean
 	cd CfgManager && $(MAKE) clean
