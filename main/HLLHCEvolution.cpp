@@ -381,6 +381,7 @@ int main(int argc, char** argv)
   TF1* f_slewRate_vs_amp = new TF1("f_slewRate_vs_amp",myfunc_amp,0.,10.,4);
   f_slewRate_vs_amp -> SetParameters(5.32470e-01,0.,2.92152e+01,7.79368e+00);
 
+  std::cout << "Reference gain/npe = " << f_gain->Eval(3.5)*9500. << std::endl;
   
   float tResAvg = 0.;
   int nTResAvg = 0;
@@ -514,6 +515,7 @@ int main(int argc, char** argv)
     }
 
     deltaLumi = intLumi - deltaLumi;
+    std::cout << " sigma_stoch: " << tResBest_stoch << "   sigma_noise: " << tResBest_noise << "   sigma_DCR: " << tResBest_DCR << std::endl;
     std::cout << "\n Vov: " << VovBest << "   nPEBest: " << nPEBest << "   gainBest: " << gainBest << "   DCRBest: " << DCRBest << "   PDEBest: " << PDEBest << "   tResBest: " << tResBest << "   intL: " << intLumi << " deltaLumi: " << deltaLumi << "\n" << std::endl;
     //std::cout << "Vov: " << VovBest << "   nPEBest: " << nPEBest << "   gainBest: " << gainBest << "   DCRBest: " << DCRBest << "   tResBest: " << tResBest << std::endl;
     g_tResBest_vs_time.SetPoint(g_tResBest_vs_time.GetN(),time,tResBest);
